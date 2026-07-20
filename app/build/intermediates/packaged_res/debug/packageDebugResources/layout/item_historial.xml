@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="4dp"
+    android:gravity="center_vertical">
+
+    <!-- Icono nativo de un "Check" verde para indicar éxito -->
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/checkbox_on_background"
+        android:contentDescription="Check"
+        app:tint="@android:color/holo_green_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+        <!-- El título fijo del evento -->
+        <TextView
+            android:id="@+id/tvHistorialInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sesión Pomodoro Completada"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Subtexto secundario donde guardaremos a qué tarea perteneció este bloque de tiempo -->
+        <TextView
+            android:id="@+id/tvHistorialTarea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Asociada a: Nombre de la tarea activa"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+</LinearLayout>

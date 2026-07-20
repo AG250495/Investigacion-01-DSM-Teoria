@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.example.investigacion01.app-mergeDebugResources-43:/layout/activity_main.xml",
+        "source": "com.example.investigacion01.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.investigacion01.app-mergeDebugResources-43:/layout/item_historial.xml",
+        "source": "com.example.investigacion01.app-main-46:/layout/item_historial.xml"
+    },
+    {
+        "merged": "com.example.investigacion01.app-mergeDebugResources-43:/layout/item_tarea.xml",
+        "source": "com.example.investigacion01.app-main-46:/layout/item_tarea.xml"
+    }
+]

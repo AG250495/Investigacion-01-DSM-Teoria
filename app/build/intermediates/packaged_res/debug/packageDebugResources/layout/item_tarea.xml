@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Usamos MaterialCardView para que cada tarea parezca una tarjetita con bordes redondeados y sombra. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:id="@+id/layoutItemTarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <!-- Casilla para marcar como completada. En el punto 5, si se activa, tacharemos el texto vecino -->
+        <CheckBox
+            android:id="@+id/cbCompletada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Aquí se inyectará el texto que el usuario escribió en el EditText principal -->
+        <TextView
+            android:id="@+id/tvNombreTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Nombre de la tarea de muestra"
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Botón con icono de basurero para remover esta fila específica de la lista -->
+        <ImageButton
+            android:id="@+id/btnEliminarTarea"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar Tarea"
+            android:src="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  Usamos ScrollView para que si la lista de tareas crece mucho, el usuario pueda hacer solo bajarh y la pantalla no se corte. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!--
+             SECCIÓN 1: EL MARCADOR DE PROGRESO
+              -->
+        <!-- Tarjeta visual que muestra los contadores que actualizaremos en tiempo real más adelante. -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:weightSum="2">
+
+                <!-- ID: tvTareasPendientes -> Se usará en Kotlin para cambiar el "0" por el número de tareas -->
+                <TextView
+                    android:id="@+id/tvTareasPendientes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tareas pendientes: 0"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+                <!-- ID: tvSesionesCompletadas -> Se usará para sumar los Pomodoros terminados -->
+                <TextView
+                    android:id="@+id/tvSesionesCompletadas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pomodoros: 0"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==========================================
+             SECCIÓN 2: EL CRONÓMETRO (POMODORO)
+             ========================================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
+
+            <!-- Muestra qué tarea estamos trabajando -->
+            <TextView
+                android:id="@+id/tvActiveTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sin tarea activa"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- El reloj gigante -->
+            <TextView
+                android:id="@+id/tvTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25:00"
+                android:textSize="54sp"
+                android:textStyle="bold" />
+
+            <!-- Barra de carga horizontal que se irá vaciando con el tiempo -->
+            <ProgressBar
+                android:id="@+id/progressBarPomodoro"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:max="1500"
+                android:progress="1500" />
+
+            <!-- Botones de control -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnStartPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Iniciar" />
+
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reiniciar"
+                    style="?android:attr/buttonBarButtonStyle"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--
+             SECCIÓN 3: INPUT PARA ESCRIBIR TAREAS
+             -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <!-- Caja de texto donde el usuario escribe -->
+            <EditText
+                android:id="@+id/etNuevaTarea"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Escribe una nueva tarea..."
+                android:inputType="textCapSentences"
+                android:importantForAutofill="no" />
+
+            <Button
+                android:id="@+id/btnAgregarTarea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Añadir" />
+        </LinearLayout>
+
+        <!--
+             SECCIÓN 4: LISTA DE TAREAS (DINÁMICA)
+              -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lista de Tareas"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="80dp"
+            android:layout_marginBottom="16dp">
+
+            <!-- Mensaje de estado vacío, Cuando haya tareas, lo ocultaremos con un GONE en Kotlin -->
+            <TextView
+                android:id="@+id/tvTareasVacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No hay tareas pendientes. ¡Añade una!"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!--  Este LinearLayout vertical es nuestra "cesta".
+                 En el punto 4, cada vez que crees una tarea, meteremos el molde 'item_tarea.xml' AQUÍ adentro. -->
+            <LinearLayout
+                android:id="@+id/containerTareas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </FrameLayout>
+
+        <!--
+             SECCIÓN 5: HISTORIAL DE SESIONES
+             -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Historial de Sesiones"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="80dp">
+
+            <!-- Otro aviso de estado vacío requerido -->
+            <TextView
+                android:id="@+id/tvHistorialVacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No has completado ninguna sesión de trabajo aún."
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Igual que el anterior, este LinearLayout es la "cesta"
+                 donde meteremos los moldes de 'item_historial.xml' cada vez que termine un temporizador. -->
+            <LinearLayout
+                android:id="@+id/containerHistorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </FrameLayout>
+
+    </LinearLayout>
+</ScrollView>
